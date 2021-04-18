@@ -10,6 +10,7 @@ import android.widget.Toast
 
 import com.example.baitaptuan1.databinding.ActivitySignUpBinding
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import java.util.regex.Pattern
 
 class SignUp : AppCompatActivity() {
     private lateinit var bindingSignUp: ActivitySignUpBinding
@@ -30,6 +31,7 @@ class SignUp : AppCompatActivity() {
         context = this@SignUp
 
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+
         bindingSignUp.btLogin.setOnClickListener {
             email = bindingSignUp.etEmailSignUp.text.toString().trim()
             password = bindingSignUp.etPasswordSignup.text.toString().trim()
@@ -37,11 +39,17 @@ class SignUp : AppCompatActivity() {
 
             if (fullname.isEmpty()) {
                 bindingSignUp.etFullNameSignUp.error = "Please enter the fullname"
-            } else if (email.isEmpty()) {
+            } else if (email.isEmpty() && !isEmailValid(email)) {
                 bindingSignUp.etEmailSignUp.error = "Please enter the email"
-            } else if (password.isEmpty()) {
+            }else if ( !isEmailValid(email)) {
+                bindingSignUp.etEmailSignUp.error = "Please enter correct format"
+            }
+            else if (password.isEmpty()) {
                 bindingSignUp.etPasswordSignup.error = "Please enter the password"
-            } else {
+            } else if (!isPasswordValid(password)) {
+                bindingSignUp.etPasswordSignup.error = "Please enter correct format"
+            }
+            else {
                 loginViewModel.insertData(context, email, password, fullname)
                 Toast.makeText(this, "Login complete", Toast.LENGTH_LONG).show()
 //                   val intent = Intent(this,Login::class.java)
@@ -57,5 +65,22 @@ class SignUp : AppCompatActivity() {
             startActivity(intent)
         }
 
+
+    }
+
+    fun isEmailValid(email: String): Boolean {
+        return Pattern.compile(
+            "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]|[\\w-]{2,}))@"
+                    + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                    + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                    + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                    + "[0-9]{1,2}|25[0-5]|2[0-4][0-9]))|"
+                    + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$"
+        ).matcher(email).matches()
+    }
+    fun isPasswordValid(password: String): Boolean {
+        return Pattern.compile(
+            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!\\-_?&])(?=\\S+$).{8,}"
+        ).matcher(password).matches()
     }
 }

@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Baitaptuan1">
-        <activity android:name=".onboaring_three"></activity>
+        <activity android:name=".gridRestaurant"></activity>
+        <activity android:name=".listRestaurant" />
+        <activity android:name=".onboaring_three" />
         <activity android:name=".onboaring_two" />
         <activity android:name=".Profile" />
         <activity android:name=".VerificationCode" />
