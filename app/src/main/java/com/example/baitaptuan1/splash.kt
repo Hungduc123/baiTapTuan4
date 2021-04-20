@@ -17,7 +17,7 @@ class splash : AppCompatActivity() {
 
 
         Handler().postDelayed({
-            val intent = Intent(this, Onboarding_one::class.java)
+            val intent = Intent(this, listRestaurant::class.java)
             startActivity(intent)
             finish()
         }, 3000)
