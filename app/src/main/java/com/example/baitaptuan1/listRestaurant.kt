@@ -25,6 +25,7 @@ class listRestaurant : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         binding  = DataBindingUtil.setContentView(this, R.layout.activity_list_restaurant)
         viewModel = ViewModelProvider(this).get(RestaurantViewModel::class.java)
 
