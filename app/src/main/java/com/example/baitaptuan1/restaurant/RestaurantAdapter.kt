@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.baitaptuan1.R
-import com.example.baitaptuan1.RecyclerAdapter
 
 class RestaurantAdapter(private val layoutManager: GridLayoutManager? = null) : ListAdapter<Restaurant,RestaurantAdapter.ViewHolder>(RestaurantDiffUtilCallback()) {
     enum class ViewType {
@@ -19,8 +18,8 @@ class RestaurantAdapter(private val layoutManager: GridLayoutManager? = null) : 
         DETAILED
     }
     override fun getItemViewType(position: Int): Int {
-        return if (layoutManager?.spanCount == 1) RecyclerAdapter.ViewType.DETAILED.ordinal
-        else RecyclerAdapter.ViewType.SMALL.ordinal
+        return if (layoutManager?.spanCount == 1) RestaurantAdapter.ViewType.DETAILED.ordinal
+        else RestaurantAdapter.ViewType.SMALL.ordinal
     }
     interface RestaurantAdapterListener{
         fun onClickItem(restaurant: Restaurant)
