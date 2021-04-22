@@ -3,12 +3,8 @@ package com.example.baitaptuan1
 
 import android.app.AlertDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -22,6 +18,8 @@ class Profile : Login() {
     private  lateinit var  viewModel: ProfileViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide();
+
         setContentView(R.layout.activity_profile)
         binding=DataBindingUtil.setContentView(this,R.layout.activity_profile)
         viewModel=ViewModelProvider(this).get(ProfileViewModel::class.java)
