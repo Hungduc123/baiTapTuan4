@@ -28,7 +28,7 @@ class RestaurantAdapter(private val layoutManager: GridLayoutManager? = null) : 
 
     class RestaurantDiffUtilCallback : DiffUtil.ItemCallback<Restaurant>(){
         override fun areItemsTheSame(oldItem: Restaurant, newItem: Restaurant): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.Id == newItem.Id
         }
 
         override fun areContentsTheSame(oldItem: Restaurant, newItem: Restaurant): Boolean {
@@ -59,10 +59,10 @@ class RestaurantAdapter(private val layoutManager: GridLayoutManager? = null) : 
         }
 
         fun bind(item: Restaurant, listener: RestaurantAdapterListener?) {
-            tvRestaurantName.text = item.name
-            tvRestaurantAddress.text = item.address
+            tvRestaurantName.text = item.Name
+            tvRestaurantAddress.text = item.Address
             Glide.with(itemView.context)
-                .load(item.picturePath)
+                .load(item.PicturePath)
                 .into(imgRestaurant)
 
             itemView.setOnClickListener {
