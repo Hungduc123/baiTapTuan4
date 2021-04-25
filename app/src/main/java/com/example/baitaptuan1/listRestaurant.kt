@@ -13,8 +13,11 @@ import com.example.baitaptuan1.databinding.ActivityListRestaurantBinding
 import com.example.baitaptuan1.restaurant.Restaurant
 import com.example.baitaptuan1.restaurant.RestaurantAdapter
 import com.example.baitaptuan1.restaurant.RestaurantViewModel
-import com.example.baitaptuan1.restaurant.getDataSet
 import kotlinx.android.synthetic.main.activity_list_restaurant.*
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.IOException
+import java.nio.charset.Charset
 
 
 class listRestaurant : AppCompatActivity() {
@@ -25,29 +28,46 @@ class listRestaurant : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list_restaurant)
         title="menu Restaurants"
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_list_restaurant)
         viewModel = ViewModelProvider(this).get(RestaurantViewModel::class.java)
 
-
         layoutManager = GridLayoutManager(this, 1)
         rcList.layoutManager = layoutManager
 
-
         rcList.adapter =RestaurantAdapter(layoutManager as GridLayoutManager)
 
+        val restaurantsList: ArrayList<Restaurant> = ArrayList()
+        try {
+            // As we have JSON object, so we are getting the object
+            //Here we are calling a Method which is returning the JSON object
+            val obj = JSONObject(getJSONFromAssets()!!)
+            // fetch JSONArray named restaurants by using getJSONArray
+            val restaurantsArray = obj.getJSONArray("restaurants")
+            // Get the restaurants data using for loop i.e. id, name, email and so on
+
+            for (i in 0 until restaurantsArray.length()) {
+                // Create a JSONObject for fetching single restaurant's Data
+                val restaurant = restaurantsArray.getJSONObject(i)
+                // Fetch id,name,address,picturepath store it in variables
+                val id = restaurant.getInt("Id")
+                val name = restaurant.getString("Name")
+                val address=restaurant.getString("Address")
+                val picturepath = restaurant.getString("PicturePath")
+                // Now add all the variables to the data model class and the data model class to the array list.
+                val restaurantDetails =
+                    Restaurant(id, name,address,picturepath)
+                // add the details in the list
+                restaurantsList.add(restaurantDetails)
+            }
+        } catch (e: JSONException) {
+            //exception
+            e.printStackTrace()
+        }
         val adapter = RestaurantAdapter();
         binding.rcList.adapter = adapter
-        adapter.listener = object : RestaurantAdapter.RestaurantAdapterListener {
-            override fun onClickItem(restaurant: Restaurant) {
-                TODO("Not yet implemented")
-                Log.e(">>>>>", "name: ${restaurant.name}")
-
-            }
-        }
-        adapter.submitList(getDataSet())
+        adapter.submitList(restaurantsList)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -79,8 +99,22 @@ class listRestaurant : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+    private fun getJSONFromAssets(): String? {
 
+        var json: String? = null
+        val charset: Charset = Charsets.UTF_8
+        try {
+            val myRestaurantsJSONFILE = assets.open("Restaurants.json")
+            val size = myRestaurantsJSONFILE.available()
+            val buffer = ByteArray(size)
+            myRestaurantsJSONFILE.read(buffer)
+            myRestaurantsJSONFILE.close()
+            json = String(buffer, charset)
 
-
-
+        } catch (ex: IOException) {
+            ex.printStackTrace()
+            return null
+        }
+        return json
+    }
 }
