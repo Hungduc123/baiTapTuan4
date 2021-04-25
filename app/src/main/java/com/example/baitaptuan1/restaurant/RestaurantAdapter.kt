@@ -1,20 +1,26 @@
 package com.example.baitaptuan1.restaurant
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestListener
 import com.example.baitaptuan1.R
 
-class RestaurantAdapter : ListAdapter<Restaurant,RestaurantAdapter.ViewHolder>(RestaurantDiffUtilCallback()) {
-
+class RestaurantAdapter(private val layoutManager: GridLayoutManager? = null) : ListAdapter<Restaurant,RestaurantAdapter.ViewHolder>(RestaurantDiffUtilCallback()) {
+    enum class ViewType {
+        SMALL,
+        DETAILED
+    }
+    override fun getItemViewType(position: Int): Int {
+        return if (layoutManager?.spanCount == 1) RestaurantAdapter.ViewType.DETAILED.ordinal
+        else RestaurantAdapter.ViewType.SMALL.ordinal
+    }
     interface RestaurantAdapterListener{
         fun onClickItem(restaurant: Restaurant)
     }
@@ -63,6 +69,7 @@ class RestaurantAdapter : ListAdapter<Restaurant,RestaurantAdapter.ViewHolder>(R
                 listener?.onClickItem(item)
             }
         }
+
     }
 
 }

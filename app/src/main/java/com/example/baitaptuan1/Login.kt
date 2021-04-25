@@ -1,26 +1,18 @@
 package com.example.baitaptuan1
 
-import android.content.Intent
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils.isEmpty
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.baitaptuan1.databinding.ActivityLoginBinding
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_login.btLogin
-import kotlinx.android.synthetic.main.activity_login.etPasswordSignUp
-import kotlinx.android.synthetic.main.activity_login.tvSignInSignUp
-import kotlinx.android.synthetic.main.activity_sign_up.*
-import com.example.baitaptuan1.LoginViewModel
-import com.example.baitaptuan1.LoginTableModel
-import com.example.baitaptuan1.SignUp
-import com.example.baitaptuan1.databinding.ActivityProfileBinding
 import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.activity_sign_up.*
 
 
 open class Login : AppCompatActivity() {
@@ -30,6 +22,8 @@ open class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        supportActionBar?.hide();
+
 
 
         bindingLogin = DataBindingUtil.setContentView(this, R.layout.activity_login)
@@ -57,7 +51,7 @@ open class Login : AppCompatActivity() {
                     bundle.putString("email", it.Email)
                     bundle.putString("fullName", it.FullName)
                     bundle.putString("passWord", it.Password)
-                    val intent = Intent(this, Profile::class.java)
+                    val intent = Intent(this, listRestaurant::class.java)
                     intent.putExtras(bundle)
                     //     intent.putExtra( "Email", email)
                     startActivity(intent)
